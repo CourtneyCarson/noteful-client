@@ -12,9 +12,9 @@ const serializeFolder = folder => ({
 });
 
 
-// api/folders path
+// / path
 folderRouter
-  .route('/api/folders')
+  .route('/')
   .get((req, res, next) => {
     const knexInstance = req.app.get('db')
     folderService.getAllFolders(knexInstance)
@@ -34,7 +34,7 @@ folderRouter
       .then(folder => {
         res
           .status(201)
-          .location(`/folders/${folder.id}`)
+          .location(`/${folder.id}`)
           .json(serializeFolder(folder))
       })
       .catch(next)
@@ -42,40 +42,52 @@ folderRouter
 
 
 
-  // api/folder/:id path
-articlesRouter
-  .route('/:article_id')
+  // :id path
+folderRouter
+  .route('/:id')
   .all((req, res, next) => {
-    ArticlesService.getById(
+    folderService.getById(
       req.app.get('db'),
-      req.params.article_id
+      req.params.id
     )
-      .then(article => {
-        if (!article) {
+      .then(folder => {
+        if (!folder) {
           return res.status(404).json({
-            error: { message: `Article doesn't exist` }
+            error: { message: `Folder doesn't exist` }
           })
         }
-        res.article = article
+        res.article = folder
         next()
       })
       .catch(next)
   })
   .get((req, res, next) => {
-    res.json(serializeArticle(res.article))
+    res.json(serializeFolder(res.folder))
   })
   .delete((req, res, next) => {
-    ArticlesService.deleteArticle(
+    folderService.deleteFolder(
       req.app.get('db'),
-      req.params.article_id
+      req.params.id
     )
-      .then(numRowsAffected => {
+      .then(() => {
+        res.status(204).end()
+      })
+      .catch(next)
+  })
+  .patch(jsonParser, (req, res, next) => {
+    const { id } = req.params
+    const updatedFolder = req.body
+    console.log(updatedFolder)
+    folderService.updateFolder(req.app.get("db"), id, updatedFolder)
+      .then(() => {
         res.status(204).end()
       })
       .catch(next)
   })
 
-module.exports = articlesRouter
+  
+
+module.exports = folderRouter
 
 
 
