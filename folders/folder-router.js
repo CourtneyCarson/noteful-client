@@ -6,45 +6,43 @@ const folderRouter = express.Router()
 const jsonParser = express.json()
 
 
-const serializeArticle = folder => ({
+const serializeFolder = folder => ({
   id: folder.id,
   name: xss(folder.folder_name),
 });
 
+
+// api/folders path
 folderRouter
-  .route('/')
+  .route('/api/folders')
   .get((req, res, next) => {
     const knexInstance = req.app.get('db')
-    ArticlesService.getAllArticles(knexInstance)
-      .then(articles => {
-        res.json(articles.map(serializeArticle))
+    folderService.getAllFolders(knexInstance)
+      .then(folders => {
+        res.json(folders.map(serializeFolder))
       })
       .catch(next)
   })
   .post(jsonParser, (req, res, next) => {
-    const { title, content, style, author } = req.body
-    const newArticle = { title, content, style }
+    const { folder_name } = req.body
+    const newFolder = { folder_name }
 
-    for (const [key, value] of Object.entries(newArticle))
-      if (value == null)
-        return res.status(400).json({
-          error: { message: `Missing '${key}' in request body` }
-        })
-
-    newArticle.author = author
-    ArticlesService.insertArticle(
+    folderService.insertFolder(
       req.app.get('db'),
-      newArticle
+      newFolder
     )
-      .then(article => {
+      .then(folder => {
         res
           .status(201)
-          .location(`/articles/${article.id}`)
-          .json(serializeArticle(article))
+          .location(`/folders/${folder.id}`)
+          .json(serializeFolder(folder))
       })
       .catch(next)
   })
 
+
+
+  // api/folder/:id path
 articlesRouter
   .route('/:article_id')
   .all((req, res, next) => {
