@@ -40,61 +40,62 @@ notesRouter
       .catch(next)
   })
 
-  /// left off here 
+  
 
 
-commentsRouter
-  .route('/:comment_id')
+notesRouter
+  .route('/:note_id')
   .all((req, res, next) => {
-    CommentsService.getById(
+    notesService.getById(
       req.app.get('db'),
-      req.params.comment_id
+      req.params.id
     )
-      .then(comment => {
-        if (!comment) {
+      .then(note => {
+        if (!note) {
           return res.status(404).json({
-            error: { message: `Comment doesn't exist` }
+            error: { message: `Note doesn't exist` }
           })
         }
-        res.comment = comment
+        res.note = note
         next()
       })
       .catch(next)
   })
-  .get((req, res, next) => {
-    res.json(serializeComment(res.comment))
-  })
-  .delete((req, res, next) => {
-    CommentsService.deleteComment(
-      req.app.get('db'),
-      req.params.comment_id
-    )
-      .then(numRowsAffected => {
-        res.status(204).end()
-      })
-      .catch(next)
-  })
-  .patch(jsonParser, (req, res, next) => {
-    const { text, date_commented } = req.body
-    const commentToUpdate = { text, date_commented }
 
-    const numberOfValues = Object.values(commentToUpdate).filter(Boolean).length
+  .get((req, res, next) => {
+    res.json(serializeNotes(res.note))
+  })
+  .delete((req,res,next)=>{
+    const { id } = req.params;
+    const knexInstance = req.app.get('db');
+    notesService.deleteNote(knexInstance,id)
+      .then(() => {
+        res.status(204).end();
+      })
+      .catch(next);
+  })
+
+  .patch(jsonParser, (req, res, next) => {
+    const { id, note_name, content, modified } = req.body
+    const noteToUpdate = { id, note_name, content, modified }
+
+    const numberOfValues = Object.values(noteToUpdate).filter(Boolean).length
     if (numberOfValues === 0)
       return res.status(400).json({
         error: {
-          message: `Request body must contain either 'text' or 'date_commented'`
+          message: `Request body must contain either 'note_name', 'content', 'id', or 'modified'`
         }
       })
 
-    CommentsService.updateComment(
+    notesService.updateNote(
       req.app.get('db'),
-      req.params.comment_id,
-      commentToUpdate
+      req.params.id,
+      noteToUpdate
     )
-      .then(numRowsAffected => {
+      .then(() => {
         res.status(204).end()
       })
       .catch(next)
   })
 
-module.exports = commentsRouter
+module.exports = notesRouter
