@@ -18,12 +18,12 @@ const folderService = {
       .where('id', id)
       .first()
   },
-  deleteArticle(knex, id) {
+  deleteFolder(knex, id) {
     return knex('folders')
       .where({ id })
       .delete()
   },
-  updateArticle(knex, id, newName) {
+  updateFolder(knex, id, newName) {
     return knex('folders')
       .where({ id })
       .update(newName)

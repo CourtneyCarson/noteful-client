@@ -19,13 +19,13 @@ const notesService = {
   },
 
   deleteNote(knex, id) {
-    return knex('notes')
+    return knex.from('notes')
       .where({ id })
       .delete();
   },
 
   updateNote(knex, id, newNote) {
-    return knex('notes')
+    return knex.from('notes')
       .where({id })
       .update(newNote);
   }
