@@ -41,7 +41,7 @@ class App extends Component {
       })
   }
 
-  handleAddFolder = folder => {
+  handleAddFolder = (folder) => {
     this.setState({
       folders: [
         ...this.state.folders,
@@ -50,7 +50,7 @@ class App extends Component {
     })
   }
 
-  handleAddNote = note => {
+  handleAddNote = (note) => {
     this.setState({
       notes: [
         ...this.state.notes,
@@ -59,65 +59,38 @@ class App extends Component {
     })
   }
 
-  handleDeleteNote = noteId => {
-    this.setState({
-      notes: this.state.notes.filter((note) => note.id !== noteId)
-    })
-  }
+ 	handleDeleteNote = (noteId) => {
+		this.setState({
+			notes: this.state.notes.filter((note) => note.id !== noteId),
+		})
+	}
 
-  renderNavRoutes() {
-    return (
-      <>
-        {['/', '/folder/:folderId'].map(path =>
-          <Route
-            exact
-            key={path}
-            path={path}
-            component={NoteListNav}
-          />
-        )}
-        <Route
-          path='/note/:noteId'
-          component={NotePageNav}
-        />
-        <Route
-          path='/add-folder'
-          component={NotePageNav}
-        />
-        <Route
-          path='/add-note'
-          component={NotePageNav}
-        />
-      </>
-    )
-  }
+	renderNavRoutes() {
+		return (
+			<>
+				{["/", "/folder/:folder_id"].map((path) => (
+					<Route exact key={path} path={path} component={NoteListNav} />
+				))}
+				<Route path="/note/:noteId" component={NotePageNav} />
+				<Route path="/add-folder" component={NotePageNav} />
+				<Route path="/add-note" component={NotePageNav} />
+			</>
+		)
+	}
 
-  renderMainRoutes() {
-    return (
-      <>
-        {['/', '/folder/:folderId'].map(path =>
-          <Route
-            exact
-            key={path}
-            path={path}
-            component={NoteListMain}
-          />
-        )}
-        <Route
-          path='/note/:noteId'
-          component={NotePageMain}
-        />
-        <Route
-          path='/add-folder'
-          component={AddFolder}
-        />
-        <Route
-          path='/add-note'
-          component={AddNote}
-        />
-      </>
-    )
-  }
+  
+	renderMainRoutes() {
+		return (
+			<>
+				{["/", "/folder/:folder_id"].map((path) => (
+					<Route exact key={path} path={path} component={NoteListMain} />
+				))}
+				<Route path="/note/:noteId" component={NotePageMain} />
+				<Route path="/add-folder" component={AddFolder} />
+				<Route path="/add-note" component={AddNote} />
+			</>
+		)
+	}
 
   render() {
     const value = {

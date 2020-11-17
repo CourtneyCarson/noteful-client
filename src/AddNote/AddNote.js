@@ -65,11 +65,11 @@ export default class AddNote extends Component {
             </label>
             <select id='note-folder-select' name='note-folder-id'>
               <option value={null}>...</option>
-              {folders.map(folder =>
+              {folders.map((folder) => (
                 <option key={folder.folderId} value={folder.folderId}>
                   {folder.name}
                 </option>
-              )}
+              ))}
             </select>
           </div>
           <div className='buttons'>
