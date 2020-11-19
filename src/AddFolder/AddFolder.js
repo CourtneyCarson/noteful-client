@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import NotefulForm from "../NotefulForm/NotefulForm";
 import ApiContext from "../ApiContext";
 import config from "../config";
+import TokenService from '../services/token-service'
 import "./AddFolder.css";
 
 export default class AddFolder extends Component {
@@ -20,7 +21,8 @@ export default class AddFolder extends Component {
 		fetch(`${config.API_ENDPOINT}api/folders`, {
 			method: "POST",
 			headers: {
-				"content-type": "application/json",
+        "content-type": "application/json",
+        'Authorization': `bearer ${TokenService.getAuthToken()}`,
 			},
 			body: JSON.stringify(folder),
 		})
