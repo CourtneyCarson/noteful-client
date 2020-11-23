@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import NotefulForm from "../NotefulForm/NotefulForm";
 import ApiContext from "../ApiContext";
 import config from "../config";
-import TokenService from '../services/token-service'
+// import TokenService from '../services/token-service'
 import "./AddFolder.css";
 
 export default class AddFolder extends Component {
@@ -17,16 +17,18 @@ export default class AddFolder extends Component {
 		e.preventDefault();
 		const folder = {
 			name: e.target["folder-name"].value,
-		};
+    };
+
 		fetch(`${config.API_ENDPOINT}api/folders`, {
 			method: "POST",
 			headers: {
         "content-type": "application/json",
-        'Authorization': `bearer ${TokenService.getAuthToken()}`,
 			},
-			body: JSON.stringify(folder),
-		})
-			.then((res) => {
+			body: JSON.stringify(folder)
+    })
+    
+      .then((res) => {
+        console.log(res)
 				if (!res.ok) return res.json().then((e) => Promise.reject(e));
 				return res.json();
 			})

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ApiContext from "../ApiContext";
 import config from "../config";
 import "./Note.css";
+import TokenService from '../services/token-service'
 
 export default class Note extends React.Component {
 	static defaultProps = {
@@ -19,7 +20,8 @@ export default class Note extends React.Component {
 		fetch(`${config.API_ENDPOINT}api/notes/${noteId}`, {
 			method: "DELETE",
 			headers: {
-				"content-type": "application/json",
+        "content-type": "application/json",
+        // 'Authorization': `bearer ${TokenService.getAuthToken()}`,
 			},
 		})
 			.then((res) => {

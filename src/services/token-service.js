@@ -1,9 +1,9 @@
-import config from '../config'
+// import config from '../config'
 
-const TokenService = {
-  getAuthToken() {
-    return window.sessionStorage.getItem(config.API_TOKEN)
-  },
-}
+// const TokenService = {
+//   getAuthToken() {
+//     return window.sessionStorage.getItem(config.API_TOKEN)
+//   },
+// }
 
-export default TokenService;
+// export default TokenService;
