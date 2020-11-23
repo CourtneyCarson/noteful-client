@@ -16,16 +16,15 @@ export default class AddNote extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 		const newNote = {
-			name: e.target["note-name"].value,
+			note_name: e.target["note-name"].value,
 			content: e.target["note-content"].value,
-			folder_id: e.target["note-folder-id"].value,
+			folder: e.target["note-folder-id"].value,
 			modified: new Date().toISOString(),
 		};
 		fetch(`${config.API_ENDPOINT}api/notes`, {
 			method: "POST",
 			headers: {
         "content-type": "application/json",
-        // 'Authorization': `bearer ${TokenService.getAuthToken()}`,
 			},
 			body: JSON.stringify(newNote),
 		})
@@ -35,7 +34,7 @@ export default class AddNote extends Component {
 			})
 			.then((note) => {
 				this.context.addNote(note);
-				this.props.history.push(`/folder/${note.folder_id}`);
+				this.props.history.push(`/folder/${note.folder}`);
 			})
 			.catch((error) => {
 				console.error({ error });
@@ -62,7 +61,7 @@ export default class AddNote extends Component {
 							<option value={null}>...</option>
 							{folders.map((folder) => (
 								<option key={folder.id} value={folder.id}>
-									{folder.name}
+									{folder.folder_name}
 								</option>
 							))}
 						</select>
