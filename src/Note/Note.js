@@ -38,7 +38,7 @@ export default class Note extends React.Component {
 	};
 
 	render() {
-    const { name, id, modified } = this.props;
+    const { name, id, modified, content } = this.props;
     console.log(name)
 		return (
 			<div className="Note">
@@ -52,6 +52,7 @@ export default class Note extends React.Component {
 				>
 					<FontAwesomeIcon icon="trash-alt" /> remove
 				</button>
+        <p className="note_content">{content}</p>
 				<div className="Note__dates">
 					<div className="Note__dates-modified">
 						Modified{" "}
