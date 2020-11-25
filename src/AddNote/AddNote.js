@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import NotefulForm from "../NotefulForm/NotefulForm";
 import ApiContext from "../ApiContext";
 import config from "../config";
-// import TokenService from '../services/token-service'
 import "./AddNote.css";
 
 export default class AddNote extends Component {

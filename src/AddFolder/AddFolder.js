@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import NotefulForm from "../NotefulForm/NotefulForm";
 import ApiContext from "../ApiContext";
 import config from "../config";
-// import TokenService from '../services/token-service'
 import "./AddFolder.css";
 
 export default class AddFolder extends Component {

@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ApiContext from "../ApiContext";
 import config from "../config";
 import "./Note.css";
-import TokenService from '../services/token-service'
 
 export default class Note extends React.Component {
 	static defaultProps = {
@@ -39,7 +38,8 @@ export default class Note extends React.Component {
 	};
 
 	render() {
-		const { name, id, modified } = this.props;
+    const { name, id, modified } = this.props;
+    console.log(name)
 		return (
 			<div className="Note">
 				<h2 className="Note__title">
